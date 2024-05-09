@@ -79,31 +79,34 @@
                 <form id="taskForm" method="post" action="{{route('update_article',$article->id)}}" enctype="multipart/form-data" >
                     @csrf
                     <div class="card-body">
-                        <div class="col-md-12 row" >
+                        <div class="col-md-12 row" style="margin-bottom: 50px">
 
                             <div class="col-md-6">
-                                <label for="basic-url" class="form-label">{{ translate('title') }}</label>
-                                <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" value="{{ old('title',$article->title) }}" aria-describedby="basic-addon3">
-                                @error('title')
-                                <div class="invalid-feedback">The title field is required.</div>
-                                @enderror
-
-                            </div>
-
-
-
-                        </div>
-                        <div class="col-md-12" style="margin-top: 10px">
-                            <div class="mb-3">
-                                <label for="description" class="form-label">{{ translate('body') }}</label>
-                                <textarea class="form-control @error('title') is-invalid @enderror" id="editor" name="body" rows="3" >{{ old('body',$article->body) }}</textarea>
-                                <span style="color: red; font-size: 14px;" class="span_error_field_msg"></span>
-                                @error('body')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <label for="images" class="form-label">{{ translate('Images') }}</label>
+                                <input type="file" class="form-control @error('images.*') is-invalid @enderror" name="images[]" id="images[]" aria-describedby="images-help" multiple>
+                                <small id="images-help" class="form-text text-muted">{{ translate('Upload multiple images. Max file size 2MB per image.') }}</small>
+                                @error('images')
+                                <div class="invalid-feedback">{{ $error }}</div>
                                 @enderror
                             </div>
-
                         </div>
+
+
+                        <div class="image-gallery">
+                            @foreach($images as $image)
+                                <div class="image-item">
+                                    <img src="{{ $image->url }}" alt="{{ $image->alt }}" class="gallery-image">
+                                </div>
+                                @if($loop->iteration % 4 == 0)
+                                    <div class="clearfix"></div>
+                                @endif
+                            @endforeach
+                        </div>
+
+
+
+
+
 
 
 
