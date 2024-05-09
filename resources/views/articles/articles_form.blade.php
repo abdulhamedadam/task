@@ -4,6 +4,7 @@
 @endsection
 @section('content')
 
+
     <div id="kt_app_content" class="app-content flex-column-fluid" >
         <div id="kt_app_content_container" class="t_container" >
             <div class="card shadow-sm " style="border-top: 3px solid #007bff;">
@@ -17,6 +18,9 @@
                         </div>
                     </div>
                 </div>
+
+
+
 
                 <form id="taskForm" method="post" action="{{route('save_article')}}" enctype="multipart/form-data" >
                     @csrf
@@ -34,14 +38,12 @@
 
                             <div class="col-md-6">
                                 <label for="images" class="form-label">{{ translate('Images') }}</label>
-                                <input type="file" class="form-control @error('images.*') is-invalid @enderror" name="images[]" id="images[]" aria-describedby="images-help" multiple>
-                                <small id="images-help" class="form-text text-muted">{{ translate('Upload multiple images. Max file size 2MB per image.') }}</small>
+                                <input type="file" class="form-control @error('images') is-invalid @enderror" name="images[]" id="images[]" aria-describedby="images-help" multiple>
                                 @error('images')
-
-                                    <div class="invalid-feedback">{{ $message }}</div>
-
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
 
 
                         </div>

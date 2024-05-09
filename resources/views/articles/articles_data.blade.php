@@ -21,7 +21,6 @@
                 <div class="card-body">
                     <div class="" >
                         <div class="col-md-4">
-                            <label for="taskStatus">Filter by Status:</label>
                         </div>
 
 

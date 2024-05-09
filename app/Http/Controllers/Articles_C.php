@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticlesSaveRequest;
 use App\Http\Requests\ArticlesUpdateRequest;
+use App\Http\Requests\SaveImageRequest;
 use App\Models\ArticleImages_M;
 use App\Models\Articles_M;
 use App\Traits\ImageProcessing;
@@ -44,7 +45,7 @@ class Articles_C extends Controller
             return redirect()->route('articles_data');
 
         } catch (\Exception $e) {
-            test($e->getMessage());
+            \Log::error($e);
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
 
@@ -160,7 +161,7 @@ class Articles_C extends Controller
     }
 
     /************************************************/
-    public function save_article_image(Request $request,$article_id)
+    public function save_article_image(SaveImageRequest $request,$article_id)
     {
         try {
             if ($request->hasFile('images')) {

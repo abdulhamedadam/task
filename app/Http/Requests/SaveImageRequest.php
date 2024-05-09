@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ArticlesSaveRequest extends FormRequest
+class SaveImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,19 +22,8 @@ class ArticlesSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|max:255|unique:articles',
+
             'images' => "required|image|mimes:jpeg,png,jpg,gif|max:2048",
-            'body' => 'required',
-        ];
-    }
-
-
-    public function messages()
-    {
-        return [
-            'title.required' => 'Title is required',
-            'title.unique' => 'Title should be unique',
-            'body.required' => 'Body is required',
         ];
     }
 }

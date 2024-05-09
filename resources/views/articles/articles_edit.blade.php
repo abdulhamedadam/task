@@ -83,10 +83,9 @@
 
                             <div class="col-md-6">
                                 <label for="images" class="form-label">{{ translate('Images') }}</label>
-                                <input type="file" class="form-control @error('images.*') is-invalid @enderror" name="images[]" id="images[]" aria-describedby="images-help" multiple>
-                                <small id="images-help" class="form-text text-muted">{{ translate('Upload multiple images. Max file size 2MB per image.') }}</small>
+                                <input type="file" class="form-control @error('images') is-invalid @enderror" name="images[]" id="images[]" aria-describedby="images-help" multiple>
                                 @error('images')
-                                <div class="invalid-feedback">{{ $error }}</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
