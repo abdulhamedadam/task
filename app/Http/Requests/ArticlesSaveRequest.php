@@ -23,18 +23,12 @@ class ArticlesSaveRequest extends FormRequest
     {
         return [
             'title' => 'required|max:255|unique:articles',
-            'images' => "required|image|mimes:jpeg,png,jpg,gif|max:2048",
+            'images' => "required",
+            'images.*' => "image|mimes:jpeg,png,jpg,gif|max:2048",
             'body' => 'required',
         ];
     }
 
 
-    public function messages()
-    {
-        return [
-            'title.required' => 'Title is required',
-            'title.unique' => 'Title should be unique',
-            'body.required' => 'Body is required',
-        ];
-    }
+
 }

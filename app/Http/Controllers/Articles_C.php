@@ -54,7 +54,7 @@ class Articles_C extends Controller
                 $data['body'] = $request->body;
                 $article = Articles_M::create($data);
                 //This function is used below in this controller
-               $this->save_article_image($article->id);
+                $this->save_article_image($request,$article->id);
             });
 
             $request->session()->flash('toastMessage', translate('file_added_successfully'));
@@ -217,9 +217,22 @@ class Articles_C extends Controller
      * @param  int  $article_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function save_article_image(SaveImageRequest $request,$article_id)
+    public function storeImage(SaveImageRequest $request,$article_id)
     {
         try {
+            $this->save_article_image($request,$article_id);
+            $request->session()->flash('toastMessage', translate('file_added_successfully'));
+            return redirect()->route('edit_article',$article_id);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    /*************************************************/
+    public function save_article_image($request,$article_id)
+    {
+
             if ($request->hasFile('images')) {
                 $files = $request->file('images');
                 foreach ($files as $file) {
@@ -230,12 +243,7 @@ class Articles_C extends Controller
                     ArticleImages_M::create($data_image);
                 }
             }
-            $request->session()->flash('toastMessage', translate('file_added_successfully'));
-            return redirect()->route('edit_article',$article_id);
 
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        }
     }
 
     /*************************************************/
