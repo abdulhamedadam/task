@@ -18,14 +18,14 @@
                     </div>
                 </div>
 
-                <form id="taskForm" method="post" action="{{route('save_update',$article->id)}}" enctype="multipart/form-data" >
+                <form id="taskForm" method="post" action="{{route('update_article',$article->id)}}" enctype="multipart/form-data" >
                     @csrf
                     <div class="card-body">
                         <div class="col-md-12 row" >
 
                             <div class="col-md-6">
                                 <label for="basic-url" class="form-label">{{ translate('title') }}</label>
-                                <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" value="{{ old('title',$article_title) }}" aria-describedby="basic-addon3">
+                                <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" value="{{ old('title',$article->title) }}" aria-describedby="basic-addon3">
                                 @error('title')
                                 <div class="invalid-feedback">The title field is required.</div>
                                 @enderror
@@ -38,7 +38,7 @@
                         <div class="col-md-12" style="margin-top: 10px">
                             <div class="mb-3">
                                 <label for="description" class="form-label">{{ translate('body') }}</label>
-                                <textarea class="form-control @error('title') is-invalid @enderror" id="editor" name="body" rows="3" >{{ old('body') }}</textarea>
+                                <textarea class="form-control @error('title') is-invalid @enderror" id="editor" name="body" rows="3" >{{ old('body',$article->body) }}</textarea>
                                 <span style="color: red; font-size: 14px;" class="span_error_field_msg"></span>
                                 @error('body')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -62,6 +62,68 @@
 
                 </form>
             </div>
+
+
+
+
+        </div>
+    </div>
+
+    <div id="kt_app_content" class="app-content flex-column-fluid" >
+        <div id="kt_app_content_container" class="t_container" >
+            <div class="card shadow-sm " style="border-top: 3px solid #007bff;">
+                <div class="card-header">
+                    <h3 class="card-title"></i> {{translate('images')}}</h3>
+                </div>
+
+                <form id="taskForm" method="post" action="{{route('update_article',$article->id)}}" enctype="multipart/form-data" >
+                    @csrf
+                    <div class="card-body">
+                        <div class="col-md-12 row" >
+
+                            <div class="col-md-6">
+                                <label for="basic-url" class="form-label">{{ translate('title') }}</label>
+                                <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" value="{{ old('title',$article->title) }}" aria-describedby="basic-addon3">
+                                @error('title')
+                                <div class="invalid-feedback">The title field is required.</div>
+                                @enderror
+
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-md-12" style="margin-top: 10px">
+                            <div class="mb-3">
+                                <label for="description" class="form-label">{{ translate('body') }}</label>
+                                <textarea class="form-control @error('title') is-invalid @enderror" id="editor" name="body" rows="3" >{{ old('body',$article->body) }}</textarea>
+                                <span style="color: red; font-size: 14px;" class="span_error_field_msg"></span>
+                                @error('body')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="col-md-12">
+                            <div class="form-group text-end" style="margin-top: 27px;">
+                                <button type="submit"  name="btnSave" value="btnSave" id="btnSave" class="btn btn-success btn-flat ">
+                                    <i class="bi bi-save"></i> {{ translate('SaveButton') }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </form>
+            </div>
+
+
+
+
         </div>
     </div>
 
