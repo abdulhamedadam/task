@@ -24,7 +24,7 @@ class ArticlesSaveRequest extends FormRequest
         return [
             'title' => 'required|max:255|unique:articles',
             'images' => "required",
-            'images.*' => "image|mimes:jpeg,png,jpg,gif|max:2048",
+            'images.*' => "image",
             'body' => 'required',
         ];
     }

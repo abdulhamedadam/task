@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::controller(\App\Http\Controllers\Articles_C::class)->group(function () {
+    //used for landing page
+    Route::get('/','index');
     Route::get('/Articles/all_articles','index')->name('articles_data');
     Route::get('/Articles/get_ajax_data','get_ajax_data')->name('get_ajax_data');
     Route::get('/Articles/create_article','create')->name('create_article');

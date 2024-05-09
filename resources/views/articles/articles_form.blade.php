@@ -24,6 +24,15 @@
 
                 <form id="taskForm" method="post" action="{{route('save_article')}}" enctype="multipart/form-data" >
                     @csrf
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="card-body">
                         <div class="col-md-12 row" >
 
@@ -38,8 +47,11 @@
 
                             <div class="col-md-6">
                                 <label for="images" class="form-label">{{ translate('Images') }}</label>
-                                <input type="file" class="form-control @error('images') is-invalid @enderror" name="images[]" id="images[]" aria-describedby="images-help" multiple>
+                                <input type="file" class="form-control @error('images') is-invalid @enderror @error('images.*') is-invalid @enderror" name="images[]" id="images[]" aria-describedby="images-help" multiple>
                                 @error('images')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                @error('images.*')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

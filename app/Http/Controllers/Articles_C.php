@@ -61,7 +61,6 @@ class Articles_C extends Controller
             return redirect()->route('articles_data');
 
         } catch (\Exception $e) {
-            \Log::error($e);
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
 

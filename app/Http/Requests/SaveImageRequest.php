@@ -23,7 +23,7 @@ class SaveImageRequest extends FormRequest
     {
         return [
             'images' => "required",
-            'images.*' => "image|mimes:jpeg,png,jpg,gif|max:2048",
+            'images.*' => "image",
         ];
     }
 }
