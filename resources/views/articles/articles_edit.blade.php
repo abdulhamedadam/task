@@ -27,7 +27,7 @@
                                 <label for="basic-url" class="form-label">{{ translate('title') }}</label>
                                 <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" value="{{ old('title',$article->title) }}" aria-describedby="basic-addon3">
                                 @error('title')
-                                <div class="invalid-feedback">The title field is required.</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
 
                             </div>
@@ -52,7 +52,7 @@
                         <div class="col-md-12">
                             <div class="form-group text-end" style="margin-top: 27px;">
                                 <button type="submit"  name="btnSave" value="btnSave" id="btnSave" class="btn btn-success btn-flat ">
-                                    <i class="bi bi-save"></i> {{ translate('SaveButton') }}
+                                    <i class="bi bi-save"></i> {{ translate('update') }}
                                 </button>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                     <h3 class="card-title"></i> {{translate('images')}}</h3>
                 </div>
 
-                <form id="taskForm" method="post" action="{{route('update_article',$article->id)}}" enctype="multipart/form-data" >
+                <form method="post" action="{{route('save_article_image',$article->id)}}" enctype="multipart/form-data" >
                     @csrf
                     <div class="card-body">
                         <div class="col-md-12 row" style="margin-bottom: 50px">
@@ -92,16 +92,21 @@
                         </div>
 
 
-                        <div class="image-gallery">
+                        <div class="image-gallery row">
                             @foreach($images as $image)
-                                <div class="image-item">
-                                    <img src="{{ $image->url }}" alt="{{ $image->alt }}" class="gallery-image">
+                                <div class="col-md-2 mb-3">
+                                    <div class="card h-100">
+                                        <div class="position-relative">
+                                            <img src="{{ asset(Storage::disk('images')->url($image->image)) }}"  class="card-img-top gallery-image">
+                                            <a   style="margin-top: -8px" onclick="return confirm('Are You Sure To Delete?')" href="{{route('delete_image',[$image->id,$article->id])}}" class=" position-absolute top-0 end-0 delete-icon" >
+                                                <i  class="bi bi-trash text-danger fs-2"></i>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                @if($loop->iteration % 4 == 0)
-                                    <div class="clearfix"></div>
-                                @endif
                             @endforeach
                         </div>
+
 
 
 
@@ -113,7 +118,7 @@
                         <div class="col-md-12">
                             <div class="form-group text-end" style="margin-top: 27px;">
                                 <button type="submit"  name="btnSave" value="btnSave" id="btnSave" class="btn btn-success btn-flat ">
-                                    <i class="bi bi-save"></i> {{ translate('SaveButton') }}
+                                    <i class="bi bi-save"></i> {{ translate('save_image') }}
                                 </button>
                             </div>
                         </div>

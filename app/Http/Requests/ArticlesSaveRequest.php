@@ -27,4 +27,14 @@ class ArticlesSaveRequest extends FormRequest
             'body' => 'required',
         ];
     }
+
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Title is required',
+            'title.unique' => 'Title should be unique',
+            'body.required' => 'Body is required',
+        ];
+    }
 }

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Facades\DB;
 
+
 class Articles_C extends Controller
 {
     use ImageProcessing;
@@ -35,16 +36,8 @@ class Articles_C extends Controller
                 $data['title'] = $request->title;
                 $data['body'] = $request->body;
                 $article = Articles_M::create($data);
-
-                if ($request->hasFile('images')) {
-                    $files = $request->file('images');
-                    foreach ($files as $file) {
-                        $dataX = $this->saveFile($file, $article->id);
-                        $data_image['image'] = $dataX;
-                        $data_image['article_id_fk'] = $article->id;
-                        ArticleImages_M::create($data_image);
-                    }
-                }
+                //This function is used below in this controller
+               $this->save_article_image($article->id);
             });
 
             $request->session()->flash('toastMessage', translate('file_added_successfully'));
@@ -93,6 +86,7 @@ class Articles_C extends Controller
 
         <li><a  class="hover-effect dropdown-item" target="_blank" href="' . route('edit_article', $row->id) . '"><i class="bi bi-info-circle-fill"></i> ' . translate('edit') . '</a></li>
         <li><a  class="hover-effect dropdown-item" onclick="return confirm(\'Are You Sure To Delete?\')" href="' . route('delete_article', $row->id) . '"><i class="bi bi-trash-fill"></i> ' . translate('delete') . '</a></li>
+        <li><a  class="hover-effect dropdown-item"  href="' . route('article_details', $row->id) . '"><i class="bi bi-info"></i> ' . translate('details') . '</a></li>
 
 
     </ul>
@@ -111,7 +105,8 @@ class Articles_C extends Controller
     {
 
         $data['article'] = Articles_M::findOrFail($id);
-        $data['images'] = Articles_M::where('article_id_fk', $id);
+        $data['images'] = ArticleImages_M::where('article_id_fk', $id)->get();
+      //  dd($data['images']);
         return view('articles.articles_edit', $data);
     }
 
@@ -147,5 +142,51 @@ class Articles_C extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
+    }
+
+    /**********************************************/
+    public function delete_image(Request $request,$image_id,$article_id)
+    {
+        try {
+            $image = ArticleImages_M::findOrFail($image_id);
+            $image->delete();
+            $request->session()->flash('toastMessage', translate('file_added_successfully'));
+            return redirect()->route('edit_article',$article_id);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+
+    }
+
+    /************************************************/
+    public function save_article_image(Request $request,$article_id)
+    {
+        try {
+            if ($request->hasFile('images')) {
+                $files = $request->file('images');
+                foreach ($files as $file) {
+                    //this is function from trait take file and name conctenated with random name
+                    $dataX = $this->saveFile($file, $article_id);
+                    $data_image['image'] = $dataX;
+                    $data_image['article_id_fk'] = $article_id;
+                    ArticleImages_M::create($data_image);
+                }
+            }
+            $request->session()->flash('toastMessage', translate('file_added_successfully'));
+            return redirect()->route('edit_article',$article_id);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    /*************************************************/
+    public function show($id)
+    {
+        $data['article'] = Articles_M::findOrFail($id);
+        $data['images'] = ArticleImages_M::where('article_id_fk', $id)->get();
+
+        return view('articles.articles_details', $data);
     }
 }

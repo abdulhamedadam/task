@@ -29,10 +29,10 @@
                             <thead>
                             <tr class="fw-bold fs-6 text-gray-800">
                                 <th style="width: 5%">m</th>
-                                <th style="text-align: center">title</th>
-                                <th style="text-align: center">body</th>
-                                <th style="text-align: center">images</th>
-                                <th style=" text-align: center">actions</th>
+                                <th style="text-align: center">{{translate('title')}}</th>
+                                <th style="text-align: center">{{translate('body')}}</th>
+                                <th style="text-align: center">{{translate('images_count')}}</th>
+                                <th style=" text-align: center">{{translate('actions')}}</th>
                             </tr>
 
                             </thead>

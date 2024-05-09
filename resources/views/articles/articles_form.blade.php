@@ -27,7 +27,7 @@
                                 <label for="basic-url" class="form-label">{{ translate('title') }}</label>
                                 <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" value="{{ old('title') }}" aria-describedby="basic-addon3">
                                 @error('title')
-                                <div class="invalid-feedback">The title field is required.</div>
+                                <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
 
                             </div>
@@ -38,7 +38,7 @@
                                 <small id="images-help" class="form-text text-muted">{{ translate('Upload multiple images. Max file size 2MB per image.') }}</small>
                                 @error('images')
 
-                                    <div class="invalid-feedback">{{ $error }}</div>
+                                    <div class="invalid-feedback">{{ $message }}</div>
 
                                 @enderror
                             </div>
