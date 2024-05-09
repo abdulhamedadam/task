@@ -18,19 +18,35 @@ class Articles_C extends Controller
     use ImageProcessing;
 
     /**********************************************/
+    /**
+     * Display the articles index page.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index()
     {
         return view('articles.articles_data');
     }
 
     /**********************************************/
+    /**
+     * Display the article creation form.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function create()
     {
         return view('articles.articles_form');
     }
 
     /**********************************************/
-    public function save(ArticlesSaveRequest $request)
+    /**
+     * Store a newly created article in storage.
+     *
+     * @param  \App\Http\Requests\ArticlesSaveRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(ArticlesSaveRequest $request)
     {
         try {
             DB::transaction(function () use ($request) {
@@ -53,6 +69,12 @@ class Articles_C extends Controller
     }
 
     /***********************************************/
+    /**
+     * Get data for DataTables AJAX request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get_ajax_data(Request $request)
     {
         if ($request->ajax()) {
@@ -102,17 +124,29 @@ class Articles_C extends Controller
 
 
     /************************************************/
+    /**
+     * Show the form for editing the specified article.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\View\View
+     */
     public function edit($id)
     {
 
         $data['article'] = Articles_M::findOrFail($id);
         $data['images'] = ArticleImages_M::where('article_id_fk', $id)->get();
-      //  dd($data['images']);
         return view('articles.articles_edit', $data);
     }
 
     /**********************************************/
-    public function update(ArticlesUpdateRequest $request, $id)
+    /**
+     * Update the specified article in storage.
+     *
+     * @param  \App\Http\Requests\ArticlesUpdateRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateArticle(ArticlesUpdateRequest $request, $id)
     {
         try {
             $article = Articles_M::find($id);
@@ -129,7 +163,14 @@ class Articles_C extends Controller
     }
 
     /************************************************/
-    public function delete(Request $request, $id)
+    /**
+     * Remove the specified article from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteArticle(Request $request, $id)
     {
         try {
             DB::transaction(function () use ($id) {
@@ -146,6 +187,14 @@ class Articles_C extends Controller
     }
 
     /**********************************************/
+    /**
+     * Delete the specified image associated with an article.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $image_id
+     * @param  int  $article_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delete_image(Request $request,$image_id,$article_id)
     {
         try {
@@ -161,6 +210,13 @@ class Articles_C extends Controller
     }
 
     /************************************************/
+    /**
+     * Save image(s) associated with an article.
+     *
+     * @param  \App\Http\Requests\SaveImageRequest  $request
+     * @param  int  $article_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function save_article_image(SaveImageRequest $request,$article_id)
     {
         try {
@@ -183,6 +239,12 @@ class Articles_C extends Controller
     }
 
     /*************************************************/
+    /**
+     * Display the specified article details.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\View\View
+     */
     public function show($id)
     {
         $data['article'] = Articles_M::findOrFail($id);
